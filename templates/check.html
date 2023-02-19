@@ -41,6 +41,15 @@
 
     </div>
 
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2 id="predict_content">{{ predict_content }}</h2>
+            <a class="close" href="#">&times;</a>
+            
+        </div>
+    </div>
+
     <div class="home-page">
         
         <div class="machine-learning open-sb-white-28">
@@ -56,7 +65,7 @@
         </div>
         
         <hr class="check-line-1">
-        <form action="{{ url_for('checkbutton')}}" method="post"> 
+        <form action="/checkbutton" method="post"> 
         <input type="text" name="url" placeholder="Example : www.example.com" value="{{url_enter}}" class="pop-l-white-16 check-2" required="required" > 
         
         <button type="submit" class="check-button button-hover open-sb-blue-20" value="Predict" >
@@ -64,12 +73,6 @@
         </button>
 
         </form>
-       
-        
-
-        
-        
-        
         
     </div>
 </body>

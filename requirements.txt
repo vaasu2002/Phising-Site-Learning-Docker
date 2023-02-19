@@ -1,0 +1,6 @@
+streamlit
+beautifulsoup4
+matplotlib
+Flask
+requests
+scikit-learn

@@ -1,32 +1,36 @@
 from bs4 import BeautifulSoup
 import requests as re
-#import feature_extraction as fee
-import streamlit as st
+import feature_extraction as fee
 import matplotlib.pyplot as plt
 import numpy as np
-import pickle
-model= pickle.load(open('model.pkl', 'rb'))
-
 from flask import Flask,request,render_template
+import pickle
+
 app= Flask (__name__)
+model= pickle.load(open('model\model.pkl', 'rb'))
 
 @app.route("/")
 def check():
     return render_template('check.html')
 
+
 @app.route('/checkbutton', methods=['POST', 'GET'])
 def checkbutton():
     geturl = request.form['url']
-    final=[np.array(geturl)]
+    response = re.get(geturl, verify=False, timeout=4)
+    soup = BeautifulSoup(response.content, "html.parser")
+    vector = [fee.create_vector(soup)] 
     
-    prediction = model.predict(final)
-    print(prediction)
+    prediction = model.predict(vector)
+    # print(prediction)
     output = prediction[0]
-    if (output == 1):
+    if (output == 0):
         pred = "Your are safe!!  This is a Legitimate Website."
+        print(pred)
     else:
         pred = "Your are on the wrong site. Be cautious!"
-    return render_template('check.html', url_path = geturl, url=pred)
+        print(pred)
+    return render_template('check.html', predict_content = pred)
 
 
 
@@ -40,7 +44,7 @@ if ('Check!'):#this code is for streamlit deployment
                 print(". HTTP connection was not successful for the URL: ", url)
             else:
                 url = BeautifulSoup(response.content, "html.parser")
-                #vector = [fee.create_vector(soup)]  # it should be 2d array, so I added []
+                vector = [fee.create_vector(soup)]  # it should be 2d array, so I added []
                 result = model.predict(url)
                 if result[0] == 0:
                     st.success("This web page seems a legitimate!")

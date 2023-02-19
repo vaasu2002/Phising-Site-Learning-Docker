@@ -3,10 +3,6 @@ import os
 import features as fe
 import pandas as pd
 
-# 1 DEFINE A FUNCTION THAT OPENS A HTML FILE AND RETURNS THE CONTENT
-file_name = "mini_dataset/0.html"
-
-
 def open_file(f_name):
     with open(f_name, "r") as f:
         return f.read()
@@ -130,7 +126,7 @@ columns = [
 
 df = pd.DataFrame(data=data, columns=columns)
 
-print(df.head(5))
+# print(df.head(5))
 
 
 
